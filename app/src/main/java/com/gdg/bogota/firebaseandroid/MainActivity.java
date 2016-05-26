@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity
@@ -36,6 +37,13 @@ public class MainActivity
     @Bind( R.id.logout_button )
     View logoutButton;
 
+    @Bind( R.id.messages_layout )
+    View messagesLayout;
+
+    @Bind( R.id.message )
+    EditText message;
+
+    DatabaseReference databaseReference = database.getReference( "message" );
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -97,15 +105,17 @@ public class MainActivity
         {
             welcomeMessage.setVisibility( View.VISIBLE );
             logoutButton.setVisibility( View.VISIBLE );
+            logoutButton.setEnabled( true );
             loginButton.setVisibility( View.GONE );
-            Log.d( TAG, "onAuthStateChanged:signed_in:" + user.getUid() );
+            messagesLayout.setVisibility( View.VISIBLE );
         }
         else
         {
             welcomeMessage.setVisibility( View.GONE );
             logoutButton.setVisibility( View.GONE );
             loginButton.setVisibility( View.VISIBLE );
-            Log.d( TAG, "onAuthStateChanged:signed_out" );
+            loginButton.setEnabled( true );
+            messagesLayout.setVisibility( View.GONE );
         }
     }
 
@@ -118,8 +128,14 @@ public class MainActivity
     public void onLogoutClicked( View view )
     {
         firebaseAuth.signOut();
-        logoutButton.setVisibility( View.GONE );
-        loginButton.setEnabled( true );
-        loginButton.setVisibility( View.VISIBLE );
+        loginButton.setEnabled( false );
+    }
+
+
+    public void onSendClicked( View view )
+    {
+        String text = message.getText().toString();
+        databaseReference.setValue( text );
+        message.setText( null );
     }
 }
