@@ -7,4 +7,5 @@
   <string name="logout">Logout</string>
   <string name="write_message">write message</string>
   <string name="send">Send</string>
+  <string name="name">name</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.gdg.bogota.firebaseandroid;
+package com.gdg.bogota.firebaseandroid.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.gdg.bogota.firebaseandroid.R;
+import com.gdg.bogota.firebaseandroid.model.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -20,8 +22,6 @@ public class MainActivity
     extends AppCompatActivity
     implements FirebaseAuth.AuthStateListener
 {
-
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -42,6 +42,9 @@ public class MainActivity
 
     @Bind( R.id.message )
     EditText message;
+
+    @Bind( R.id.sender )
+    EditText sender;
 
     DatabaseReference databaseReference = database.getReference( "message" );
 
@@ -135,7 +138,9 @@ public class MainActivity
     public void onSendClicked( View view )
     {
         String text = message.getText().toString();
-        databaseReference.setValue( text );
         message.setText( null );
+        String messageSender = sender.getText().toString();
+        Message message = new Message( messageSender, text );
+        databaseReference.setValue( message );
     }
 }
