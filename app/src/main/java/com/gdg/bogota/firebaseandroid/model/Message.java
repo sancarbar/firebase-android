@@ -10,6 +10,8 @@ public class Message
 
     String text;
 
+    String imageUrl;
+
     //Used by json parser
     public Message()
     {
@@ -21,6 +23,10 @@ public class Message
         this.text = text;
     }
 
+    public Message( String imageUrl )
+    {
+        this.imageUrl = imageUrl;
+    }
 
     public String getSender()
     {
@@ -30,6 +36,11 @@ public class Message
     public String getText()
     {
         return text;
+    }
+
+    public String getImageUrl()
+    {
+        return imageUrl;
     }
 
     @Override

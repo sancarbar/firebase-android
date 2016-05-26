@@ -1,14 +1,17 @@
 package com.gdg.bogota.firebaseandroid.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,14 @@ public class MessagesAdapter
     extends RecyclerView.Adapter<MessagesAdapter.ViewHolder>
 {
 
+    private final Context context;
+
     private List<Message> messages = new ArrayList<>();
 
+    public MessagesAdapter( Context context )
+    {
+        this.context = context;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType )
@@ -36,6 +45,11 @@ public class MessagesAdapter
         Message message = messages.get( position );
         viewHolder.sender.setText( message.getSender() );
         viewHolder.message.setText( message.getText() );
+        if ( message.getImageUrl() != null )
+        {
+            viewHolder.imageView.setVisibility( View.VISIBLE );
+            Picasso.with( context ).load( message.getImageUrl() ).into( viewHolder.imageView );
+        }
     }
 
     @Override
@@ -65,6 +79,8 @@ public class MessagesAdapter
         @Bind( R.id.message )
         TextView message;
 
+        @Bind( R.id.image )
+        ImageView imageView;
 
         public ViewHolder( View view )
         {
