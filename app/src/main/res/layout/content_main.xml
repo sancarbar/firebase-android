@@ -13,16 +13,6 @@
               tools:context=".ui.activity.MainActivity"
               tools:showIn="@layout/activity_main">
 
-  <TextView
-      android:id="@+id/welcome_message"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/welcome_user"
-      android:textColor="@color/black"
-      android:textSize="20sp"
-      android:visibility="gone" />
-
   <Button
       android:id="@+id/login_button"
       android:layout_width="match_parent"
@@ -38,8 +28,15 @@
       android:text="@string/logout"
       android:visibility="gone" />
 
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:padding="10dp" />
 
   <LinearLayout
+
       android:id="@+id/messages_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
