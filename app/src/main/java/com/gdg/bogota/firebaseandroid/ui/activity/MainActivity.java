@@ -2,7 +2,6 @@ package com.gdg.bogota.firebaseandroid.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -244,8 +243,6 @@ public class MainActivity
         {
 
             Bundle extras = data.getExtras();
-
-            Uri imageUri = data.getData();
             Bitmap imageBitmap = (Bitmap) extras.get( "data" );
             UploadPostTask uploadPostTask = new UploadPostTask();
             uploadPostTask.execute( imageBitmap );
