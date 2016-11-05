@@ -2,6 +2,7 @@ package com.gdg.bogota.firebaseandroid.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,7 +51,7 @@ public class MainActivity
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    StorageReference storageRef = storage.getReferenceFromUrl( "gs://funchat-802d9.appspot.com" );
+    StorageReference storageRef = storage.getReferenceFromUrl( "gs://funchat-ef3ed.appspot.com" );
 
     @Bind( R.id.login_button )
     View loginButton;
@@ -78,10 +79,17 @@ public class MainActivity
         @Override
         public void onChildAdded( DataSnapshot dataSnapshot, String s )
         {
-            Message message = dataSnapshot.getValue( Message.class );
+            final Message message = dataSnapshot.getValue( Message.class );
             if ( message != null )
             {
-                messagesAdapter.addMessage( message );
+                runOnUiThread( new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        messagesAdapter.addMessage( message );
+                    }
+                } );
             }
         }
 
@@ -120,8 +128,8 @@ public class MainActivity
         ButterKnife.bind( this );
         Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        configureRecyclerView();
         messagesAdapter = new MessagesAdapter( this );
+        configureRecyclerView();
         databaseReference.addChildEventListener( messagesListener );
     }
 
@@ -214,7 +222,7 @@ public class MainActivity
         databaseReference.push().setValue( message );
     }
 
-    @OnClick( R.id.sendImage )
+    @OnClick( R.id.add_picture )
     public void onAddImageClicked()
     {
         dispatchTakePictureIntent();
@@ -234,7 +242,10 @@ public class MainActivity
     {
         if ( requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK )
         {
+
             Bundle extras = data.getExtras();
+
+            Uri imageUri = data.getData();
             Bitmap imageBitmap = (Bitmap) extras.get( "data" );
             UploadPostTask uploadPostTask = new UploadPostTask();
             uploadPostTask.execute( imageBitmap );

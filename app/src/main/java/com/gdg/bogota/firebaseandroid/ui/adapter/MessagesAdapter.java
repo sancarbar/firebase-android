@@ -47,8 +47,15 @@ public class MessagesAdapter
         viewHolder.message.setText( message.getText() );
         if ( message.getImageUrl() != null )
         {
+            viewHolder.sender.setVisibility( View.GONE );
+            viewHolder.message.setVisibility( View.GONE );
             viewHolder.imageView.setVisibility( View.VISIBLE );
             Picasso.with( context ).load( message.getImageUrl() ).into( viewHolder.imageView );
+        }
+        else
+        {
+            viewHolder.sender.setVisibility( View.VISIBLE );
+            viewHolder.message.setVisibility( View.VISIBLE );
         }
     }
 
@@ -70,7 +77,7 @@ public class MessagesAdapter
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder
+    static class ViewHolder
         extends RecyclerView.ViewHolder
     {
         @Bind( R.id.sender )
@@ -82,7 +89,7 @@ public class MessagesAdapter
         @Bind( R.id.image )
         ImageView imageView;
 
-        public ViewHolder( View view )
+        ViewHolder( View view )
         {
             super( view );
             ButterKnife.bind( this, view );

@@ -41,19 +41,30 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      android:padding="10dp">
+      android:padding="10dp"
+      android:visibility="gone"
+      tools:visibility="visible">
 
     <EditText
         android:id="@+id/sender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:hint="@string/name" />
 
     <EditText
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:hint="@string/write_message" />
+
+    <Button
+        android:id="@+id/add_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/send_photo" />
 
     <Button
         android:layout_width="match_parent"

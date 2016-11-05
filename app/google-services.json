@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "228775700123",
-    "firebase_url": "https://funchat-802d9.firebaseio.com",
-    "project_id": "funchat-802d9",
-    "storage_bucket": "funchat-802d9.appspot.com"
+    "project_number": "222529413222",
+    "firebase_url": "https://funchat-ef3ed.firebaseio.com",
+    "project_id": "funchat-ef3ed",
+    "storage_bucket": "funchat-ef3ed.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:228775700123:android:b61c329e76d2db13",
+        "mobilesdk_app_id": "1:222529413222:android:b61c329e76d2db13",
         "android_client_info": {
           "package_name": "com.gdg.bogota.firebaseandroid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "228775700123-1jhsjipc16c9urs0du89fvpgfgp1r5of.apps.googleusercontent.com",
+          "client_id": "222529413222-nc3ngnltr19fctvtrpklnde2m69coju7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBTzjupBrDGf7KSEK-jAeO2B-G0XxUmKqM"
+          "current_key": "AIzaSyA8g6LXYf4zEuq-pNVZi_Lrr86tfSa-NLE"
         }
       ],
       "services": {
