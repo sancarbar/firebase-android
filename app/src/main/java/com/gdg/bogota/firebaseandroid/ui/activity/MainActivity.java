@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,15 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
 import com.gdg.bogota.firebaseandroid.ui.adapter.MessagesAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,9 +31,12 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity
     extends AppCompatActivity
-    implements FirebaseAuth.AuthStateListener
 {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -51,12 +50,6 @@ public class MainActivity
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     StorageReference storageRef = storage.getReferenceFromUrl( "gs://funchat-ef3ed.appspot.com" );
-
-    @Bind( R.id.login_button )
-    View loginButton;
-
-    @Bind( R.id.logout_button )
-    View logoutButton;
 
     @Bind( R.id.messages_layout )
     View messagesLayout;
@@ -78,24 +71,13 @@ public class MainActivity
         @Override
         public void onChildAdded( DataSnapshot dataSnapshot, String s )
         {
-            final Message message = dataSnapshot.getValue( Message.class );
-            if ( message != null )
-            {
-                runOnUiThread( new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        messagesAdapter.addMessage( message );
-                    }
-                } );
-            }
+            updateMessage( dataSnapshot );
         }
 
         @Override
         public void onChildChanged( DataSnapshot dataSnapshot, String s )
         {
-
+            updateMessage( dataSnapshot );
         }
 
         @Override
@@ -118,6 +100,22 @@ public class MainActivity
         {
         }
     };
+
+    private void updateMessage( DataSnapshot dataSnapshot )
+    {
+        final Message message = dataSnapshot.getValue( Message.class );
+        if ( message != null )
+        {
+            runOnUiThread( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    messagesAdapter.addMessage( message );
+                }
+            } );
+        }
+    }
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -158,58 +156,15 @@ public class MainActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if ( id == R.id.action_settings )
+        if ( id == R.id.action_logout )
         {
+            firebaseAuth.signOut();
+            startActivity( new Intent( this, LoginActivity.class ) );
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected( item );
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        firebaseAuth.addAuthStateListener( this );
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener( this );
-    }
-
-    @Override
-    public void onAuthStateChanged( @NonNull FirebaseAuth firebaseAuth )
-    {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if ( user != null )
-        {
-            logoutButton.setVisibility( View.VISIBLE );
-            logoutButton.setEnabled( true );
-            loginButton.setVisibility( View.GONE );
-            messagesLayout.setVisibility( View.VISIBLE );
-        }
-        else
-        {
-            logoutButton.setVisibility( View.GONE );
-            loginButton.setVisibility( View.VISIBLE );
-            loginButton.setEnabled( true );
-            messagesLayout.setVisibility( View.GONE );
-        }
-    }
-
-    public void onLoginClicked( View view )
-    {
-        firebaseAuth.signInAnonymously();
-        loginButton.setEnabled( false );
-    }
-
-    public void onLogoutClicked( View view )
-    {
-        firebaseAuth.signOut();
-        loginButton.setEnabled( false );
     }
 
     public void onSendClicked( View view )
@@ -249,7 +204,8 @@ public class MainActivity
         }
     }
 
-    class UploadPostTask
+    @SuppressWarnings("VisibleForTests")
+    private class UploadPostTask
         extends AsyncTask<Bitmap, Void, Void>
     {
 

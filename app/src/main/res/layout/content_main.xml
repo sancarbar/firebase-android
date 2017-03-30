@@ -1,49 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
-              tools:context=".ui.activity.MainActivity"
-              tools:showIn="@layout/activity_main">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.activity.MainActivity"
+    tools:showIn="@layout/activity_main">
 
-  <Button
-      android:id="@+id/login_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:onClick="onLoginClicked"
-      android:text="@string/login" />
-
-  <Button
-      android:id="@+id/logout_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:onClick="onLogoutClicked"
-      android:text="@string/logout"
-      android:visibility="gone" />
 
   <android.support.v7.widget.RecyclerView
       android:id="@+id/recycler_view"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:layout_weight="1"
-      android:padding="10dp" />
+      android:layout_weight="1"/>
 
   <LinearLayout
-
       android:id="@+id/messages_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+
       android:orientation="vertical"
-      android:padding="10dp"
-      android:visibility="gone"
-      tools:visibility="visible">
+      android:padding="10dp">
 
     <EditText
         android:id="@+id/sender"
@@ -59,19 +39,27 @@
         android:layout_marginBottom="10dp"
         android:hint="@string/write_message" />
 
-    <Button
-        android:id="@+id/add_picture"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/send_photo" />
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onSendClicked"
-        android:text="@string/send" />
+      <Button
+          android:id="@+id/add_picture"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:padding="10dp"
+          android:text="@string/send_photo" />
 
+      <Button
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:onClick="onSendClicked"
+          android:text="@string/send_message" />
+
+    </LinearLayout>
   </LinearLayout>
 
 

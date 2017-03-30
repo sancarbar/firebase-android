@@ -9,4 +9,7 @@
   <string name="send">Send</string>
   <string name="name">name</string>
   <string name="send_photo">Send Photo</string>
+  <string name="action_logout">Logout</string>
+  <string name="login_anonymous">login anonymous</string>
+  <string name="send_message">send message</string>
 </resources>
