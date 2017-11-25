@@ -204,7 +204,7 @@ public class MainActivity
         }
     }
 
-    @SuppressWarnings("VisibleForTests")
+    @SuppressWarnings( "VisibleForTests" )
     private class UploadPostTask
         extends AsyncTask<Bitmap, Void, Void>
     {
@@ -226,14 +226,7 @@ public class MainActivity
                         {
                             String imageUrl = taskSnapshot.getDownloadUrl().toString();
                             final Message message = new Message( imageUrl );
-                            runOnUiThread( new Runnable()
-                            {
-                                @Override
-                                public void run()
-                                {
-                                    messagesAdapter.addMessage( message );
-                                }
-                            } );
+                            databaseReference.push().setValue( message );
                         }
                     }
                 } );
