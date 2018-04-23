@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import butterknife.BindView;
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
 import com.gdg.bogota.firebaseandroid.ui.adapter.MessagesAdapter;
@@ -31,7 +32,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -51,16 +51,16 @@ public class MainActivity
 
     StorageReference storageRef = storage.getReferenceFromUrl( "gs://funchat-ef3ed.appspot.com" );
 
-    @Bind( R.id.messages_layout )
+    @BindView( R.id.messages_layout )
     View messagesLayout;
 
-    @Bind( R.id.message )
+    @BindView( R.id.message )
     EditText message;
 
-    @Bind( R.id.sender )
+    @BindView( R.id.sender )
     EditText sender;
 
-    @Bind( R.id.recycler_view )
+    @BindView( R.id.recycler_view )
     RecyclerView recyclerView;
 
     private MessagesAdapter messagesAdapter;

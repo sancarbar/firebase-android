@@ -1,13 +1,14 @@
 package com.gdg.bogota.firebaseandroid.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
@@ -32,8 +33,9 @@ public class MessagesAdapter
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType )
+    public ViewHolder onCreateViewHolder( @NonNull ViewGroup parent, int viewType )
     {
         View view = LayoutInflater.from( parent.getContext() ).inflate( R.layout.message_row, parent, false );
         return new ViewHolder( view );
@@ -80,13 +82,13 @@ public class MessagesAdapter
     static class ViewHolder
         extends RecyclerView.ViewHolder
     {
-        @Bind( R.id.sender )
+        @BindView( R.id.sender )
         TextView sender;
 
-        @Bind( R.id.message )
+        @BindView( R.id.message )
         TextView message;
 
-        @Bind( R.id.image )
+        @BindView( R.id.image )
         ImageView imageView;
 
         ViewHolder( View view )

@@ -7,13 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.gdg.bogota.firebaseandroid.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * @author Santiago Carrillo
@@ -24,7 +22,7 @@ public class LoginActivity
     implements FirebaseAuth.AuthStateListener
 {
 
-    @Bind( R.id.login_button )
+    @BindView( R.id.login_button )
     Button loginButton;
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
