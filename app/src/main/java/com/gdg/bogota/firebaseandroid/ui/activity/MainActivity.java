@@ -13,13 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
 import com.gdg.bogota.firebaseandroid.ui.adapter.MessagesAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,9 +33,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity
     extends AppCompatActivity
@@ -56,9 +55,6 @@ public class MainActivity
 
     @BindView( R.id.message )
     EditText message;
-
-    @BindView( R.id.sender )
-    EditText sender;
 
     @BindView( R.id.recycler_view )
     RecyclerView recyclerView;
@@ -123,12 +119,21 @@ public class MainActivity
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
         ButterKnife.bind( this );
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
+        Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
         messagesAdapter = new MessagesAdapter( this );
         configureRecyclerView();
         databaseReference.addChildEventListener( messagesListener );
+        setTitle( getCurrentUserDisplayName() );
     }
+
+    private String getCurrentUserDisplayName()
+    {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        return currentUser != null ? currentUser.getDisplayName() : "";
+
+    }
+
 
     private void configureRecyclerView()
     {
@@ -171,8 +176,7 @@ public class MainActivity
     {
         String text = message.getText().toString();
         message.setText( null );
-        String messageSender = sender.getText().toString();
-        Message message = new Message( messageSender, text );
+        Message message = new Message( getCurrentUserDisplayName(), text );
         databaseReference.push().setValue( message );
     }
 
@@ -194,15 +198,16 @@ public class MainActivity
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data )
     {
-        if ( requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK )
+        if ( resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE )
         {
-
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get( "data" );
             UploadPostTask uploadPostTask = new UploadPostTask();
             uploadPostTask.execute( imageBitmap );
+
         }
     }
+
 
     @SuppressWarnings( "VisibleForTests" )
     private class UploadPostTask

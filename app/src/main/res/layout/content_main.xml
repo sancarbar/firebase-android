@@ -25,19 +25,15 @@
       android:orientation="vertical"
       android:padding="10dp">
 
-    <EditText
-        android:id="@+id/sender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/name" />
+
 
     <EditText
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:hint="@string/write_message" />
+        android:hint="@string/write_message"
+        android:inputType="text" />
 
     <LinearLayout
         android:layout_width="match_parent"

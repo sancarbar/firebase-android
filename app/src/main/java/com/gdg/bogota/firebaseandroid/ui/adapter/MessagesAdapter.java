@@ -58,6 +58,7 @@ public class MessagesAdapter
         {
             viewHolder.sender.setVisibility( View.VISIBLE );
             viewHolder.message.setVisibility( View.VISIBLE );
+            viewHolder.imageView.setVisibility( View.GONE );
         }
     }
 

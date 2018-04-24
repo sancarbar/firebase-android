@@ -10,6 +10,8 @@
   <string name="name">name</string>
   <string name="send_photo">Send Photo</string>
   <string name="action_logout">Logout</string>
-  <string name="login_anonymous">login anonymous</string>
+  <string name="google_login">Google Login</string>
   <string name="send_message">send message</string>
+  <string name="loading">loading…</string>
+  <string name="web_client_id"> 222529413222-nc3ngnltr19fctvtrpklnde2m69coju7.apps.googleusercontent.com</string>
 </resources>
