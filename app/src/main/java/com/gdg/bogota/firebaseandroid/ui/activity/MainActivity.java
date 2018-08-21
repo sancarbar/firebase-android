@@ -5,9 +5,10 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.gdg.bogota.firebaseandroid.R;
 import com.gdg.bogota.firebaseandroid.model.Message;
-import com.gdg.bogota.firebaseandroid.ui.adapter.MessagesAdapter;
+import com.gdg.bogota.firebaseandroid.ui.fragment.MessagesListFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,16 +51,15 @@ public class MainActivity
 
     StorageReference storageRef = storage.getReferenceFromUrl( "gs://funchat-ef3ed.appspot.com" );
 
+    private final MessagesListFragment messagesListFragment = new MessagesListFragment();
+
+
     @BindView( R.id.messages_layout )
     View messagesLayout;
 
     @BindView( R.id.message )
     EditText message;
 
-    @BindView( R.id.recycler_view )
-    RecyclerView recyclerView;
-
-    private MessagesAdapter messagesAdapter;
 
     private final ChildEventListener messagesListener = new ChildEventListener()
     {
@@ -67,6 +67,7 @@ public class MainActivity
         @Override
         public void onChildAdded( DataSnapshot dataSnapshot, String s )
         {
+
             updateMessage( dataSnapshot );
         }
 
@@ -82,7 +83,7 @@ public class MainActivity
             Message message = dataSnapshot.getValue( Message.class );
             if ( message != null )
             {
-                messagesAdapter.removeMessage( message );
+                messagesListFragment.removeMessage( message );
             }
         }
 
@@ -107,7 +108,7 @@ public class MainActivity
                 @Override
                 public void run()
                 {
-                    messagesAdapter.addMessage( message );
+                    messagesListFragment.addMessage( message );
                 }
             } );
         }
@@ -121,10 +122,10 @@ public class MainActivity
         ButterKnife.bind( this );
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-        messagesAdapter = new MessagesAdapter( this );
-        configureRecyclerView();
         databaseReference.addChildEventListener( messagesListener );
         setTitle( getCurrentUserDisplayName() );
+
+        showFragment( messagesListFragment, false );
     }
 
     private String getCurrentUserDisplayName()
@@ -134,15 +135,6 @@ public class MainActivity
 
     }
 
-
-    private void configureRecyclerView()
-    {
-        recyclerView.setHasFixedSize( true );
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this );
-        linearLayoutManager.setReverseLayout( true );
-        recyclerView.setLayoutManager( linearLayoutManager );
-        recyclerView.setAdapter( messagesAdapter );
-    }
 
     @Override
     public boolean onCreateOptionsMenu( Menu menu )
@@ -238,6 +230,21 @@ public class MainActivity
 
             return null;
         }
+    }
+
+
+    public void showFragment( Fragment fragment, boolean addToBackStack )
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        String tag = fragment.getClass().getSimpleName();
+        if ( addToBackStack )
+        {
+            transaction.addToBackStack( tag );
+        }
+        transaction.replace( R.id.fragment_container, fragment, tag );
+        transaction.commitAllowingStateLoss();
     }
 
 

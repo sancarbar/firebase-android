@@ -24,14 +24,8 @@ public class MessagesAdapter
     extends RecyclerView.Adapter<MessagesAdapter.ViewHolder>
 {
 
-    private final Context context;
-
     private List<Message> messages = new ArrayList<>();
 
-    public MessagesAdapter( Context context )
-    {
-        this.context = context;
-    }
 
     @NonNull
     @Override
@@ -42,7 +36,7 @@ public class MessagesAdapter
     }
 
     @Override
-    public void onBindViewHolder( ViewHolder viewHolder, int position )
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position )
     {
         Message message = messages.get( position );
         viewHolder.sender.setText( message.getSender() );
@@ -52,7 +46,7 @@ public class MessagesAdapter
             viewHolder.sender.setVisibility( View.GONE );
             viewHolder.message.setVisibility( View.GONE );
             viewHolder.imageView.setVisibility( View.VISIBLE );
-            Picasso.with( context ).load( message.getImageUrl() ).into( viewHolder.imageView );
+            Picasso.get().load( message.getImageUrl() ).into( viewHolder.imageView );
         }
         else
         {
